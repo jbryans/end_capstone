@@ -72,7 +72,15 @@ h4 {
 }
 
 .button2 {
- 
+  color: white;
+ background-color: green;
+  height: 30px;
+  width: 100px;
+}
+
+.button3 {
+  color: white;
+ background-color: red;
   height: 30px;
   width: 100px;
 }
