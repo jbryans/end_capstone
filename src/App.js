@@ -185,18 +185,57 @@ function App() {
       </div>
       <div className="Customers">
         <button onClick={getCustomer}>Show Customers</button> */}
-
+<Card style={{maxWidth:450, margin:"0 auto", padding:"20px 5px"}}>
+<Grid container spacing={1}  >
+            
         {customerList.map((val, key) => {
           return (
             <div className="customer">
               <div>
-                <h3>Name: {val.full_name}</h3>
+              <Grid container spacing={6}  >
+              <Grid xs={12} pt={ 10 } item>Name: {val.full_name}</Grid>
+              <Grid xs={12} item>Address: {val.home_address}</Grid>
+              <Grid xs={12} item>Grass type: {val.grass}</Grid>
+              <Grid xs={12} item>Lawn size: {val.sqft}</Grid>
+              </Grid>
+                {/* <h3>Name: {val.full_name}</h3>
                 <h3>Address: {val.home_address}</h3>
                 <h3>Grass type: {val.grass}</h3>
-                <h3>Lawn size: {val.sqft}</h3>
+                <h3>Lawn size: {val.sqft}</h3> */}
               </div>
               <h4>
-                <input
+              <Grid container spacing={1} >
+              <TextField
+               label="Full Name"
+               placeholder="Customer Full Name"
+               variant="outlined"
+               onChange={(event) => {
+                setNewName(event.target.value);
+              }}
+                fullWidth
+              ></TextField>
+               <TextField
+                  label="Home Address"
+                  placeholder="Address"
+                  variant="outlined"
+               
+                fullWidth
+              ></TextField>
+               <TextField
+                 label="Grass"
+                 placeholder="Grass Type"
+                 variant="outlined"
+                
+                fullWidth
+              ></TextField>
+               <TextField
+                label="Lawn Size in Sqft"
+                placeholder="Lawn Size"
+                variant="outlined"
+               
+                fullWidth
+              ></TextField>
+                {/* <input
                   type="text"
                   placeholder="Name..."
                   className="updateValues"
@@ -227,8 +266,10 @@ function App() {
                   onChange={(event) => {
                     setNewName(event.target.value);
                   }}
-                />
-                <button
+                /> */}
+                <Button
+                color='primary'
+                variant="contained"
                   className="button2"
                   onClick={() => {
                     updateCustomerName(val.id);
@@ -236,22 +277,28 @@ function App() {
                 >
                   {" "}
                   Update{" "}
-                </button>
-                <button
+                </Button>
+                <Button
+                color='secondary'
+                variant="contained"
                   className="button3"
                   onClick={() => {
                     deleteCustomer(val.id);
                   }}
                 >
                   Delete
-                </button>
+                </Button>
+                </Grid>
               </h4>
             </div>
           );
         })}
+        </Grid>
+        </Card>
       </div>
     // </div>
   );
 }
+
 
 export default App;
