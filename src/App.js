@@ -1,8 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Axios from 'axios';
 
+
+const apidata = "https://clientback.vercel.app/customers"
+
 function App() {
+
+  // useEffect(()=> {
+  //   async function getStoredData(){
+  //     const response = await Axios.get(apidata);
+  //     console.log(response)
+  //   }
+  //   getStoredData();
+  // }, [])
+
+  
+// const [customers, setCustomers] = useState([]);
+
+//   useEffect(()=>{
+//     const fetchData = async () => {
+//       const data = await fetch("https://clientback.vercel.app/customers")
+//       const json = await data.json();
+//     setCustomers(json);
+//     };
+//     fetchData(); 
+//   },
+     
+
+//   []);
+//   useEffect(()=> {
+//     console.log({customers})
+//   })
 
   const [full_name, setName] = useState("");
   const [home_address, setAddress] = useState("");
@@ -10,11 +39,14 @@ function App() {
   const [sqft, setSize] = useState(0);
 
   const [newName, setNewName] = useState("")
+  const [newAddress, setNewAddress] = useState("")
+  const [newGrass, setNewGrass] = useState("")
+  const [newSqft, setNewSqft] = useState("")
 
   const [customerList, setCustomerList] = useState([]);
 
   const deleteCustomer = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response)=> {
+    Axios.delete(`http://clientback.vercel.app/delete${id}`).then((response)=> {
       setCustomerList(customerList.filter((val)=> {
         return val.id != id
       }))
@@ -22,7 +54,7 @@ function App() {
   }
 
   const addCustomer = () => {
-    Axios.post('http://localhost:3001/create', {
+    Axios.post('https://clientback.vercel.app/create', {
       full_name: full_name, 
       home_address: home_address, 
       grass: grass, 
@@ -37,19 +69,22 @@ function App() {
     })
   }
 
-  const getCustomer = () => {
-    Axios.get('http://localhost:3001/customers').then((response) => {
+  const getCustomer = async () => {
+    const response = await Axios.get('https://clientback.vercel.app/customers');
+    if (response.status === 200) {
       setCustomerList(response.data)
-    })
+    }
   }
 
   const updateCustomerName = (id) => {
-    Axios.put('http://localhost:3001/update', {full_name: newName, id: id}).then((response) => {
+    Axios.put('https://clientback.vercel.app/update', {full_name: newName, id: id}).then((response) => {
       setCustomerList(customerList.map((val)=> {
         return val.id == id ? {id: val.id , full_name: newName, grass: val.grass, home_address: val.home_address, sqft: val.sqft} : val
       }))
     })
   }
+
+
   return (
     <div className="App">
       <div className='Info'>
@@ -90,13 +125,22 @@ function App() {
            <h3>Grass type: {val.grass}</h3> 
            <h3>Lawn size: {val.sqft}</h3> 
            </div>
-           <div> 
-            <input type="text" placeholder="Name..."  onChange={(event) => {
+           <h4 > 
+            <input type="text" placeholder="Name..." className='updateValues' onChange={(event) => {
         setNewName(event.target.value);
         }} /> 
-           <button onClick={() => {updateCustomerName(val.id)}}> Update </button>
-           <button onClick={()=> {deleteCustomer(val.id)}}>Delete</button>
-           </div>
+        <input type="text" placeholder="Address..." className='updateValues' onChange={(event) => {
+        setNewName(event.target.value);
+        }} /> 
+        <input type="text" placeholder="Turf..." className='updateValues' onChange={(event) => {
+        setNewName(event.target.value);
+        }} /> 
+        <input type="text" placeholder="Sqft..." className='updateValues' onChange={(event) => {
+        setNewName(event.target.value);
+        }} /> 
+           <button className='button2'  onClick={() => {updateCustomerName(val.id)}}> Update </button>
+           <button className='button2' onClick={()=> {deleteCustomer(val.id)}}>Delete</button>
+           </h4>
            </div>
       })}
       </div>
